@@ -16,16 +16,25 @@ systemctl enable docker
 
 
 # add ec2-user to the docker group so you can execute Docker commands without sudo
-usermod -a -G docker ec2-user
+usermod -aG docker ec2-user
 # update group with changes 
-#newgrp docker
+newgrp docker
 
 
 # gcc required for miniwld
 yum install gcc python3-devel
 
+# install git
+yum install git
+
 # install miniwdl
 pip3 install miniwdl
+
+# install go for wreleaser
+yum install go
+
+
+
 
 # Tests 
 # verify python install 
