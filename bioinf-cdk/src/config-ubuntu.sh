@@ -24,7 +24,7 @@ apt-cache policy docker-ce -y
 apt install docker-ce -y
 
 # Setup docker so user ubuntu can run it
-usermod -aG docker ubuntu
+sudo usermod -aG docker ubuntu
 
 # Docker End
 
@@ -55,7 +55,6 @@ chown -R ubuntu .
 mkfs –t ext4 /dev/nvme1n1
 mkdir /data
 mount /dev/nvme1n1 /data
-
 
 
 
