@@ -51,12 +51,7 @@ tar xzf WholeGenomeGermlineSingleSample_v3.1.10.tar.gz
 
 chown -R ubuntu .
 
-# Mount the data drive
-# Format and Mount the data drive
-file /dev/nvme1n1
-mkfs –t ext4 /dev/nvme1n1
-mkdir /data
-mount /dev/nvme1n1 /data
+
 
 
 

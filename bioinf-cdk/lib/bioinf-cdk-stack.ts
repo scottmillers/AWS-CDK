@@ -52,30 +52,8 @@ export class BioinfCdkStack extends cdk.Stack {
     })
 
     role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'))
-    
-    
-    // volume for os
-    const rootVolume: ec2.BlockDevice = {
-      deviceName: '/dev/sda1', // Use the root device name from Step 1
-      volume: ec2.BlockDeviceVolume.ebs(2048,
-        {
-          deleteOnTermination: true,
-        })
   
-    };
-   
-   
-   /* Help find the Ubuntu images
-    https://cloud-images.ubuntu.com/locator/ec2/
-   */
-
-
-/*
-    const ubuntuMachineImage = ec2.MachineImage.fromSsmParameter(
-      '/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20230428ami-0044130ca185d0880",',
-      {os: ec2.OperatingSystemType.LINUX},
-    );
-*/
+  
 /*
    const myuserData = ec2.UserData.forLinux()
     myuserData.addCommands(
@@ -103,31 +81,89 @@ export class BioinfCdkStack extends cdk.Stack {
         );
   */  
   
+    // This will bootstrap cloudformation components for Ubuntu
+    // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html
+    /*const userData = ec2.UserData.forLinux()
+        userData.addCommands(
+          'apt-get update -y',
+          'apt-get install pip -y',
+          'pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz',
+          'ln -s /root/aws-cfn-bootstrap-latest/init/ubuntu/cfn-hup /etc/init.d/cfn-hup',
+        
+        );
+    */
 
-    const myuserData = ec2.UserData.forLinux()
-        myuserData.addCommands(
-          'apt update -y',
-          'apt install awscli -y',
+    // This is needed since I the AWS CLI is not installed by default on Ubuntu.  This will install it.
+    // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html
+    const userData = ec2.UserData.forLinux()
+        userData.addCommands(
+          'apt-get update -y',
+          'apt-get install awscli -y',
         );
     
 
+ 
+   /* Help find the Ubuntu images
+    https://cloud-images.ubuntu.com/locator/ec2/
+   */
+
+
+/*
+    const ubuntuMachineImage = ec2.MachineImage.fromSsmParameter(
+      '/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20230428ami-0044130ca185d0880",',
+      {os: ec2.OperatingSystemType.LINUX},
+    );
+*/
 
     const ubuntuMachineImage = ec2.MachineImage.genericLinux(
       {
         'us-east-1': 'ami-0044130ca185d0880',
       },
       {
-        userData: myuserData,
+        userData: userData,
       });
      
     
+      
+    /*
+    // volume for os
+    const rootVolume: ec2.BlockDevice = {
+      deviceName: '/dev/sda1', // Use the root device name from Step 1
+      volume: ec2.BlockDeviceVolume.ebs(2048,
+        {
+          deleteOnTermination: true,
+        })
+  
+    };
+    
+    // volume for data
+    const dataVolume: ec2.BlockDevice = {
+      deviceName: '/dev/sdf', // Use the root device name from Step 1
+      volume: ec2.BlockDeviceVolume.ebs(8192,
+        {
+          deleteOnTermination: true,
+        })
+  
+    };
+    
+       
+    const workingVolume = new ec2.Volume(this, 'Volume', {
+      availabilityZone: 'us-east-1a',
+      size: cdk.Size.gibibytes(8192),
+      encrypted: true,
+      volumeName: '/dev/sdf',
+      volumeType: ec2.EbsDeviceVolumeType.GP2,
+    
+    });
+   
+    */
     
      // Create the instance using the Security Group, AMI, and KeyPair defined in the VPC created
     const ec2Instance = new ec2.Instance(this, 'Bioinformatics-Ubuntu-R5A-Large', {
       instanceName: 'Bioinformatics-Ubuntu-R5A-Large',
       vpc,
 
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5A, ec2.InstanceSize.LARGE),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5A, ec2.InstanceSize.XLARGE),
       machineImage: ubuntuMachineImage,
       
       securityGroup: securityGroup,
@@ -136,29 +172,25 @@ export class BioinfCdkStack extends cdk.Stack {
       
       blockDevices: [
         {
-          deviceName : "/dev/sda1",
-          volume : ec2.BlockDeviceVolume.ebs(2048)
+          deviceName: '/dev/sda1', // Use the root device name from Step 1
+          volume: ec2.BlockDeviceVolume.ebs(2048,
+          {
+            deleteOnTermination: true,
+          })
         },
         {
-          deviceName : "/dev/sdf",
-          volume : ec2.BlockDeviceVolume.ebs(8192)
-        }
-        
+          deviceName: '/dev/sdf', // Use the root device name from Step 1
+          volume: ec2.BlockDeviceVolume.ebs(8192,
+          {
+            deleteOnTermination: true,
+          })
+        },
+      
       ]
     });
     
-    
-    const workingVolume = new ec2.Volume(this, 'Volume', {
-      availabilityZone: 'us-east-1a',
-      size: cdk.Size.gibibytes(8192),
-      encrypted: true,
-      volumeName: '/dev/sdf',
-      volumeType: ec2.EbsDeviceVolumeType.GP2
-      
-    });
-    
-    /*
-    
+ 
+  
        // Create an asset that will be used as part of User Data to run on first load
     const asset = new Asset(this, 'Asset', { path: path.join(__dirname, '../src/config.sh') });
     
@@ -173,10 +205,11 @@ export class BioinfCdkStack extends cdk.Stack {
     });
     
     asset.grantRead(ec2Instance.role);
-    */
+    
+    
 
     // Create outputs for connecting
-    //new cdk.CfnOutput(this, 'Script path', { value: localPath });
+    new cdk.CfnOutput(this, 'Script path', { value: localPath });
     new cdk.CfnOutput(this, 'IP Address', { value: ec2Instance.instancePublicIp });
     new cdk.CfnOutput(this, 'Download Key Command', { value: 'aws secretsmanager get-secret-value --secret-id ec2-ssh-key/cdk-keypair/private --query SecretString --output text > cdk-key.pem && chmod 400 cdk-key.pem' })
     new cdk.CfnOutput(this, 'ssh command', { value: 'ssh -i cdk-key.pem -o IdentitiesOnly=yes ec2-user@' + ec2Instance.instancePublicIp })
