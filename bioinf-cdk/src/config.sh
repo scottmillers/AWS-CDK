@@ -44,7 +44,7 @@ sudo mount /dev/nvme1n1 /data
 # Step 
 # Step 6 - Install the WholeGenomeGermlineSingleSample
 # Use the /data directory
-cd /data
+#cd /data
 
 # Now install GoLang for wreleaser
 #apt instal go-golang
@@ -52,12 +52,7 @@ cd /data
 # Install wreleaser
 #go install github.com/broadinstitute/warp/wreleaser@latest
 
-# Install the Broad Institute WholeGenomeGermlineSingleSample
-wget  https://github.com/broadinstitute/warp/archive/refs/tags/WholeGenomeGermlineSingleSample_v3.1.10.tar.gz 
 
-tar xzf WholeGenomeGermlineSingleSample_v3.1.10.tar.gz 
-
-chown -R ubuntu .
 
 
 

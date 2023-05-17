@@ -5,10 +5,10 @@ RUNDIR=/data
 
 
 S3_DIR=s3://804609861260-bioinformatics-infectious-disease/
-S3_DATA_FILE=$S3_DIR/SampleFiles/NBSWGS2022007_unmapped.bam
-S3_CONFIG_FILE=$S3_DIR/SamplesFiles/NBSWGS2022007_dragen_haplo3.json
-S3_OUTPUT_DIR=$S3_DIR/SampleFiles/Results/
-LOCAL_OUTPUT_DIR=_LAST
+S3_DATA_FILE=$S3_DIR/WGS/SampleFiles/NBSWGS2022007_unmapped.bam
+S3_CONFIG_FILE=$S3_DIR/WGS/SamplesFiles/NBSWGS2022007_dragen_haplo3.json
+S3_OUTPUT_DIR=$S3_DIR/WGS/Results/
+
 
 
 WGSDIR='warp-WholeGenomeGermlineSingleSample_v3.1.10/pipelines/broad/dna_seq/germline/single_sample/wgs/'
