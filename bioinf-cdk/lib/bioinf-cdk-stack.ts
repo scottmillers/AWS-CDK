@@ -2,10 +2,9 @@ import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as path from 'path';
-// import { KeyPair } from 'cdk-ec2-key-pair';
 import { Asset } from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
-
+//import { KeyPair } from 'cdk-ec2-key-pair';
 
 
 /* Code is from the CDK examples
@@ -21,8 +20,8 @@ export class BioinfCdkStack extends cdk.Stack {
 
    // Create a Key Pair to be used with this EC2 Instance
     // Temporarily disabled since `cdk-ec2-key-pair` is not yet CDK v2 compatible
-    // const key = new KeyPair(this, 'KeyPair', {
-    //   name: 'cdk-keypair',
+   // const key = new KeyPair(this, 'KeyPair', {
+    //    name: 'cdk-keypair',
     //   description: 'Key Pair created with CDK Deployment',
     // });
     // key.grantReadOnPublicKey
@@ -47,51 +46,16 @@ export class BioinfCdkStack extends cdk.Stack {
     
     securityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(22), 'Allow SSH Access')
 
+
+    // Attach this role to the EC2 instance
     const role = new iam.Role(this, 'ec2Role', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com')
     })
 
     role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'))
+    role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'))
   
-  
-/*
-   const myuserData = ec2.UserData.forLinux()
-    myuserData.addCommands(
-      'apt update -y',
-      'apt install apt-transport-https ca-certificates curl software-properties-common -y',
-      'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg',
-      'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null',
-      'apt update -y',
-      'apt-cache policy docker-ce -y',
-      'apt install docker-ce -y',
-      'sudo usermod -aG docker ubuntu',
-      'apt install python3-pip -y',
-      'pip3 install miniwdl',
-    )
-*/
-/*
-    const myuserData = ec2.UserData.forLinux()
-        myuserData.addCommands(
-          'apt update -y',
-          'apt remove awscli -y',
-          'apt install zip -y',
-          'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"',
-          'unzip awscliv2.zip',
-          './aws/install',
-        );
-  */  
-  
-    // This will bootstrap cloudformation components for Ubuntu
-    // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html
-    /*const userData = ec2.UserData.forLinux()
-        userData.addCommands(
-          'apt-get update -y',
-          'apt-get install pip -y',
-          'pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz',
-          'ln -s /root/aws-cfn-bootstrap-latest/init/ubuntu/cfn-hup /etc/init.d/cfn-hup',
-        
-        );
-    */
+
 
     // This is needed since I the AWS CLI is not installed by default on Ubuntu.  This will install it.
     // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html
@@ -163,7 +127,7 @@ export class BioinfCdkStack extends cdk.Stack {
       instanceName: 'Bioinformatics-Ubuntu-R5A-Large',
       vpc,
 
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5A, ec2.InstanceSize.XLARGE),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.R5A, ec2.InstanceSize.XLARGE24),
       machineImage: ubuntuMachineImage,
       
       securityGroup: securityGroup,

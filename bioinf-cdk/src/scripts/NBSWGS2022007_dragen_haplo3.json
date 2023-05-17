@@ -3,7 +3,7 @@
     "sample_name": "NBSWGS2022007",
     "base_file_name": "NBSWGS2022007",
     "flowcell_unmapped_bams": [
-        "/home/klong/nbs_wgs_mapping/warp/pipelines/broad/dna_seq/germline/single_sample/wgs/NBSWGS2022007_unmapped.bam"
+        "/data/NBSWGS2022007_unmapped.bam
     ],
     "final_gvcf_base_name": "NBSWGS2022007",
     "unmapped_bam_suffix": ".bam"

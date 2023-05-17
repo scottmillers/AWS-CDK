@@ -34,9 +34,17 @@ apt install python3-pip -y
 # Step4 - Install PIP3 package manager needed for miniwdl
 pip3 install miniwdl
 
-# Step 5 - Install the WholeGenomeGermlineSingleSample
-# Now work within the ubuntu directory
-cd /home/ubuntu
+
+# Step5 - Create a data drive and mount it
+sudo file /dev/nvme1n1
+sudo mkfs –t ext4 /dev/nvme1n1
+sudo mkdir /data
+sudo mount /dev/nvme1n1 /data
+
+# Step 
+# Step 6 - Install the WholeGenomeGermlineSingleSample
+# Use the /data directory
+cd /data
 
 # Now install GoLang for wreleaser
 #apt instal go-golang
@@ -50,12 +58,6 @@ wget  https://github.com/broadinstitute/warp/archive/refs/tags/WholeGenomeGermli
 tar xzf WholeGenomeGermlineSingleSample_v3.1.10.tar.gz 
 
 chown -R ubuntu .
-
-# Format and Mount the data drive
-#file /dev/nvme1n1
-#sudo mkfs –t ext4 /dev/nvme1n1
-#mkdir /data
-#mount /dev/nvme1n1 /data
 
 
 
