@@ -1,0 +1,32 @@
+{
+  "version": "31.0.0",
+  "files": {
+    "836c30bcbb924b2b663b8d82f907e45e18ffb32d3f6340e29256801046874b93": {
+      "source": {
+        "path": "asset.836c30bcbb924b2b663b8d82f907e45e18ffb32d3f6340e29256801046874b93.sh",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "836c30bcbb924b2b663b8d82f907e45e18ffb32d3f6340e29256801046874b93.sh",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "ec5891eaf7e2dedc319d610522dfb7f288da61249c60a1a603d47f431687ee49": {
+      "source": {
+        "path": "BioinfCdkStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "ec5891eaf7e2dedc319d610522dfb7f288da61249c60a1a603d47f431687ee49.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

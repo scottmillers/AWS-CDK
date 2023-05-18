@@ -1,0 +1,203 @@
+{
+  "version": "31.0.0",
+  "artifacts": {
+    "BioinfCdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "BioinfCdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "BioinfCdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "BioinfCdkStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ec5891eaf7e2dedc319d610522dfb7f288da61249c60a1a603d47f431687ee49.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "BioinfCdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "Bioinformatics-Compute-Stack"
+      },
+      "dependencies": [
+        "BioinfCdkStack.assets"
+      ],
+      "metadata": {
+        "/BioinfCdkStack/VPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCB9E5F0B4"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet1SubnetEE53BCBC"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet1RouteTable23B73BA2"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet1RouteTableAssociationFD2182F2"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet1DefaultRoute377544B7"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet2Subnet7959E1B2"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet2RouteTable01067F80"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet2RouteTableAssociation781F3620"
+          }
+        ],
+        "/BioinfCdkStack/VPC/asteriskSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCasteriskSubnet2DefaultRoute9650F4DB"
+          }
+        ],
+        "/BioinfCdkStack/VPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCIGWB7E252D3"
+          }
+        ],
+        "/BioinfCdkStack/VPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCVPCGW99B986DC"
+          }
+        ],
+        "/BioinfCdkStack/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecurityGroupDD263621"
+          }
+        ],
+        "/BioinfCdkStack/ec2Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2Role38AB65C0"
+          }
+        ],
+        "/BioinfCdkStack/ec2Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2RoleDefaultPolicyC400AE24"
+          }
+        ],
+        "/BioinfCdkStack/Bioinformatics-Ubuntu-R5A-Large/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BioinformaticsUbuntuR5ALargeInstanceProfileC1B6C863"
+          }
+        ],
+        "/BioinfCdkStack/Bioinformatics-Ubuntu-R5A-Large/AmiMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BioinformaticsUbuntuR5ALargeAmiMapC455BA26"
+          }
+        ],
+        "/BioinfCdkStack/Bioinformatics-Ubuntu-R5A-Large/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BioinformaticsUbuntuR5ALargeFB54BFF5"
+          }
+        ],
+        "/BioinfCdkStack/Volume/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VolumeA92988D3"
+          }
+        ],
+        "/BioinfCdkStack/Script path": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Scriptpath"
+          }
+        ],
+        "/BioinfCdkStack/IP Address": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IPAddress"
+          }
+        ],
+        "/BioinfCdkStack/Download Key Command": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DownloadKeyCommand"
+          }
+        ],
+        "/BioinfCdkStack/ssh command": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "sshcommand"
+          }
+        ],
+        "/BioinfCdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/BioinfCdkStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/BioinfCdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/BioinfCdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "BioinfCdkStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
