@@ -9,16 +9,7 @@ export class OmicsCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    // Find the Omics bucket
-  /*  this.sourceBucket = Bucket.fromBucketAttributes(
-      this,
-      "OmicsBucketS3",
-      {
-        bucketArn:
-          "arn:aws:s3:::804609861260-bioinformatics-infectious-disease",
-      }
-    );
-  */
+   
     // setup the Omics role so it can read/write from my S3 bucket write to a omics log file
     const role = new Role(this, "OmicsRole", {
       assumedBy: new ServicePrincipal("omics.amazonaws.com"),
@@ -32,6 +23,19 @@ export class OmicsCdkStack extends Stack {
       })
     );
     
+    role.addToPolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "omics:*",
+          "ram:AcceptResourceShareInvitation",
+          "ram:GetResourceShareInvitations"
+          ],
+        resources: ["*"],
+      })
+    );
+    
+
    /* 
     role.addToPolicy(
       new PolicyStatement({
@@ -54,7 +58,8 @@ export class OmicsCdkStack extends Stack {
                   "s3:GetObjectAcl",
                   "s3:PutObjectAcl"
                   ],
-        resources: ["arn:aws:s3:::804609861260-bioinformatics-infectious-disease/*"],
+        resources: ["arn:aws:s3:::804609861260-bioinformatics-infectious-disease/*",
+                   "arn:aws:s3:::sentieon-omics-license-us-east-1/*"],
       })
     );
 
