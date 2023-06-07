@@ -9,9 +9,11 @@ export class OmicsCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-   
+    const roleName = 'OmicsR2RWorkflowRole'
+    
     // setup the Omics role so it can read/write from my S3 bucket write to a omics log file
     const role = new Role(this, "OmicsRole", {
+      roleName: roleName,
       assumedBy: new ServicePrincipal("omics.amazonaws.com"),
     });
 
@@ -59,7 +61,8 @@ export class OmicsCdkStack extends Stack {
                   "s3:PutObjectAcl"
                   ],
         resources: ["arn:aws:s3:::804609861260-bioinformatics-infectious-disease/*",
-                   "arn:aws:s3:::sentieon-omics-license-us-east-1/*"],
+                    "arn:aws:s3:::sentieon-omics-license-us-east-1/*",
+                    "arn:aws:s3:::omics-us-east-1/*"],
       })
     );
 
@@ -88,8 +91,9 @@ export class OmicsCdkStack extends Stack {
     );
     
       // Create outputs for connecting
-    new CfnOutput(this, 'Omics Role Arn', { value: role.roleArn });
     new CfnOutput(this, 'Omics Role Name', { value: role.roleName});
+    new CfnOutput(this, 'Omics Role Arn', { value: role.roleArn });
+    
     //new cdk.CfnOutput(this, 'IP Address', { value: ec2Instance.instancePublicIp });
     
     
