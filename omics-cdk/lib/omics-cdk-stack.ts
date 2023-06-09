@@ -38,7 +38,7 @@ export class OmicsCdkStack extends Stack {
     );
     
 
-   /* 
+   
     role.addToPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
@@ -46,7 +46,7 @@ export class OmicsCdkStack extends Stack {
         actions: ["sts:AssumeRole"],
       })
     );
-    */
+  
     
     
     role.addToPolicy(
