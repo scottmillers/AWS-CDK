@@ -11,12 +11,23 @@ export class OmicsCdkStack extends Stack {
 
     const roleName = 'OmicsR2RWorkflowRole'
     
+    
     // setup the Omics role so it can read/write from my S3 bucket write to a omics log file
     const role = new Role(this, "OmicsRole", {
       roleName: roleName,
       assumedBy: new ServicePrincipal("omics.amazonaws.com"),
     });
+    
+ 
 
+    role.assumeRolePolicy?.addStatements(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['sts:AssumeRole'],
+        principals: [new ServicePrincipal('omics.amazonaws.com')], // Specify the service principal allowed to assume the role
+    }));
+    
+    
     role.addToPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
@@ -38,15 +49,15 @@ export class OmicsCdkStack extends Stack {
     );
     
 
-   
-    role.addToPolicy(
+   /*
+    role.addManagedPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         principals: [new ServicePrincipal("omics.amazonaws.com")], 
         actions: ["sts:AssumeRole"],
       })
     );
-  
+  */
     
     
     role.addToPolicy(
