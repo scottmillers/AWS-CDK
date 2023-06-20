@@ -72,6 +72,7 @@ export class OmicsCdkStack extends Stack {
                   "s3:PutObjectAcl"
                   ],
         resources: ["arn:aws:s3:::804609861260-bioinformatics-infectious-disease/*",
+                    "arn:aws:s3:::bioinformatics-nbs/*",
                     "arn:aws:s3:::sentieon-omics-license-us-east-1/*",
                     "arn:aws:s3:::omics-us-east-1/*"],
       })
