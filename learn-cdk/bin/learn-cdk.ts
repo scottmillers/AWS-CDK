@@ -21,4 +21,4 @@ const app = new cdk.App();
 
 */
 
-new NetworkStack(app, "NetworkCdkStack");
+new NetworkStack(app, "LearnStack");
