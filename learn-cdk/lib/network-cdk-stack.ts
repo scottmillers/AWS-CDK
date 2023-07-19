@@ -7,7 +7,7 @@ export class NetworkStack extends cdk.Stack {
     super(scope, id, props);
 
     // Create a VPC
-    const vpc = new ec2.Vpc(this, "VPC-A", {
+    const vpc = new ec2.Vpc(this, "DemoVPC", {
       ipAddresses: ec2.IpAddresses.cidr("10.0.0.0/16"), // Specify the desired CIDR block for the VPC
       maxAzs: 2, // Specify the maximum number of availability zones to use
       subnetConfiguration: [
