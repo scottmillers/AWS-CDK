@@ -2,14 +2,18 @@ import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 
+import { MultistackProps } from "../lib/multistackprops-cdk-interface";
+
+import { VpcLink } from "aws-cdk-lib/aws-apigateway";
+
 export class NetworkStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: MultistackProps) {
     super(scope, id, props);
 
     // Create a VPC
     const vpc = new ec2.Vpc(this, "DemoVPC", {
       ipAddresses: ec2.IpAddresses.cidr("10.0.0.0/16"), // Specify the desired CIDR block for the VPC
-      maxAzs: 2, // Specify the maximum number of availability zones to use
+      maxAzs: 1, // Specify the maximum number of availability zones to use
       subnetConfiguration: [
         {
           cidrMask: 24,
@@ -29,7 +33,21 @@ export class NetworkStack extends cdk.Stack {
       ],
     });
 
-    /*
+    props.vpc = vpc;
+
+    // Access the created VPC properties
+    console.log("VPC ID:", vpc.vpcId);
+    console.log(
+      "Public Subnets:",
+      vpc.publicSubnets.map((subnet) => subnet.subnetId)
+    );
+    console.log(
+      "Private Subnets:",
+      vpc.privateSubnets.map((subnet) => subnet.subnetId)
+    );
+  }
+
+  /*
     // Create a public subnet and attach to VPC
     const publicSubnet = new ec2.PublicSubnet(stack, "ingress", {
       vpcId: vpc.vpcId,
@@ -38,8 +56,8 @@ export class NetworkStack extends cdk.Stack {
     });
 */
 
-    // this is how you add tags
-    /*   const internetGateway = new ec2.CfnInternetGateway(
+  // this is how you add tags
+  /*   const internetGateway = new ec2.CfnInternetGateway(
       this,
       "MyCfnInternetGateway",
       // all optional props  {
@@ -74,8 +92,8 @@ export class NetworkStack extends cdk.Stack {
       gatewayId: internetGateway.ref,
     });
 */
-    // Associate the route table with the public subnet
-    /*    const subnetRouteTableAssociation = new ec2.CfnSubnetRouteTableAssociation(
+  // Associate the route table with the public subnet
+  /*    const subnetRouteTableAssociation = new ec2.CfnSubnetRouteTableAssociation(
       stack,
       "MySubnetRouteTableAssociation",
       {
@@ -84,15 +102,4 @@ export class NetworkStack extends cdk.Stack {
       }
     );
 */
-    // Access the created VPC properties
-    console.log("VPC ID:", vpc.vpcId);
-    console.log(
-      "Public Subnets:",
-      vpc.publicSubnets.map((subnet) => subnet.subnetId)
-    );
-    console.log(
-      "Private Subnets:",
-      vpc.privateSubnets.map((subnet) => subnet.subnetId)
-    );
-  }
 }
